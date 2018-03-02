@@ -42,7 +42,7 @@ export function * onPush(action) {
 
 export function * onBack() {
 	if (supportsHistory()) {
-		return yield call(goBack);
+		return yield put(goBack());
 	}
 
 	return yield call(legacyLocationChange, {pathname: '/'});

@@ -19,12 +19,7 @@ class Home extends Component {
 
 	@bind()
 	handleClick() {
-		this.props.actions.locationPush({
-			pathname: '/about',
-			state: {
-				page: 5
-			}
-		});
+		this.props.actions.locationBack();
 	}
 
 	render() {
@@ -33,6 +28,7 @@ class Home extends Component {
 			<div>
 				<h1>Data title: {data.get('title')}</h1>
 				This is the home page
+				<button type="button" onClick={this.handleClick}>Back To About</button>
 			</div>
 		);
 	}

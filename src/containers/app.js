@@ -6,14 +6,15 @@ import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import {renderRoutes} from 'react-router-config';
 import {Map} from 'immutable';
+import {bind} from 'lodash-decorators';
 
 import {actions as locationActions, selectors as locationSelectors} from '../ducks/location';
 import {actions as storeActions, selectors as storeSelectors} from '../ducks/app';
 import {actions as dataActions, selectors as dataSelectors} from '../ducks/data';
 
-import {unique} from '../utils/componentHelpers';
+import routes from '../routes';
 
-import '../css/styles.css';
+import {unique, click} from '../utils/componentHelpers';
 
 const mapStateToProps = state => ({
 	location: locationSelectors.getLocation(state),
@@ -38,14 +39,19 @@ class App extends Component {
 
 	static propTypes = {
 		actions: PropTypes.objectOf(PropTypes.func).isRequired,
-		match: PropTypes.object.isRequired,
-		route: PropTypes.object.isRequired,
 		data: ImmutablePropTypes.map
 	};
 
 	static defaultProps = {
 		data: Map()
 	};
+
+	@bind()
+	handleLinkClick(page) {
+		this.props.actions.locationPush({
+			pathname: page
+		});
+	}
 
 	componentDidMount() {
 		this.props.actions.dataSet({
@@ -63,12 +69,12 @@ class App extends Component {
 
 	render() {
 		return (
-			<div className="app">
+			<div id="app" className="app">
 				<h1>App Container</h1>
 				<Link to="/">Home</Link>
-				<Link to="/about">About</Link>
-				<div>
-					{renderRoutes(this.props.route.routes, {...this.props})}
+				<a onClick={click(this.handleLinkClick, 'about')}>About</a>
+				<div id="wrap">
+					{renderRoutes(routes, {...this.props})}
 				</div>
 			</div>
 		);

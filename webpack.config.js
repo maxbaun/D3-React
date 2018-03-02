@@ -94,7 +94,7 @@ let browserConfig = {
 						}
 					}
 				],
-				include: path.resolve(__dirname, '../app'),
+				include: path.resolve(__dirname, './src'),
 				exclude: /img/
 			},
 			{
@@ -107,7 +107,7 @@ let browserConfig = {
 						}
 					}
 				],
-				include: path.resolve(__dirname, '../app'),
+				include: path.resolve(__dirname, './src'),
 				exclude: /css/
 			}
 		]
@@ -116,7 +116,9 @@ let browserConfig = {
 		new webpack.DefinePlugin({
 			'process.env': {
 				NODE_ENV: isDev ? JSON.stringify('development') : JSON.stringify('production')
-			}
+			},
+			API_URL: JSON.stringify((isDev ? '' : '')),
+			COOKIE_DOMAIN: JSON.stringify((isDev ? null : ''))
 		}),
 		new webpack.optimize.CommonsChunkPlugin({
 			name: 'vendor',
